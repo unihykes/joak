@@ -6,7 +6,7 @@ import json
 import sys
 from typing import Any, Dict, Optional
 
-import r2u_hook_common as c
+import hook_common as c
 
 
 # Field	Type	Meaning

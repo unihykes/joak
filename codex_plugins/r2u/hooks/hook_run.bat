@@ -3,7 +3,7 @@ chcp 65001>nul 2>&1
 set "LOG_FILE=%cd%\.codex\logs\hooks.log"
 set "EXECUTOR=%USERPROFILE%\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
 set "EVENT_NAME=%~1"
-set "EVENT_SCRIPT=%~dp0r2u_hook_on_%EVENT_NAME%.py"
+set "EVENT_SCRIPT=%~dp0hook_on_%EVENT_NAME%.py"
 
 :: call :write_log "PLUGIN_ROOT=%PLUGIN_ROOT%"
 :: call :write_log "PLUGIN_DATA=%PLUGIN_DATA%"

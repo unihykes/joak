@@ -6,12 +6,12 @@ import json
 import sys
 from typing import Any, Dict, Optional
 
-import r2u_hook_common as c
+import hook_common as c
 
 _LOG_MASK_KEYS = frozenset({
     "prompt", "text", "content",
     "output", "pattern", "task",
-    "old_string", "new_string", "context", "tool_response"
+    "old_string", "new_string", "context"
 })
 
 
@@ -34,14 +34,12 @@ def _mask_tree_for_log(node: Any, prop_name: str = "") -> Any:
 # tool_name	string	Canonical hook tool name, such as Bash, apply_patch, or an MCP name like mcp__fs__read
 # tool_use_id	string	Tool-call id for this invocation
 # tool_input	JSON value	Tool-specific input. Bash and apply_patch use tool_input.command while MCP tools send all arguments.
-# tool_response	JSON value	Tool-specific output. For MCP tools, this is the MCP call result.
 # 备注: turn_id 已在 R2eHookInputHead 中解析
 @dataclass
-class R2eHookPostToolUseInputBody:
+class R2eHookPreToolUseInputBody:
     tool_name: Optional[str] = None
     tool_use_id: Optional[str] = None
     tool_input: Optional[Any] = None
-    tool_response: Optional[Any] = None
     others: Dict[str, Any] = field(default_factory=dict)
 
     def to_string(self) -> str:
@@ -49,16 +47,15 @@ class R2eHookPostToolUseInputBody:
             "tool_name": self.tool_name,
             "tool_use_id": self.tool_use_id,
             "tool_input": self.tool_input,
-            "tool_response": self.tool_response,
         }
         if self.others:
             payload["others"] = self.others
         return "\n" + json.dumps(_mask_tree_for_log(payload), ensure_ascii=False, indent=2)
 
 
-def get_hook_input_body() -> tuple[c.R2eHookInputHead, R2eHookPostToolUseInputBody]:
+def get_hook_input_body() -> tuple[c.R2eHookInputHead, R2eHookPreToolUseInputBody]:
     head, body_str = c.get_hook_input_head_and_body()
-    inst = R2eHookPostToolUseInputBody()
+    inst = R2eHookPreToolUseInputBody()
     hv = head.is_valid_Json
     if not str(body_str).strip():
         return head, inst
@@ -81,33 +78,40 @@ def get_hook_input_body() -> tuple[c.R2eHookInputHead, R2eHookPostToolUseInputBo
         inst.tool_use_id = obj.pop("tool_use_id")
     if "tool_input" in obj:
         inst.tool_input = obj.pop("tool_input")
-    if "tool_response" in obj:
-        inst.tool_response = obj.pop("tool_response")
     if obj:
         inst.others = dict(obj)
     return head, inst
 
 
-# Field	Effect
-# continue	If false, marks that hook run as stopped
-# stopReason	Recorded as the reason for stopping
-# systemMessage	Surfaced as a warning in the UI or event stream
-# suppressOutput	Parsed today but not yet implemented
-# 备注:
-# PostToolUse supports systemMessage, continue: false, and stopReason. 
-# suppressOutput is parsed but not currently supported for that event.
-
-# 额外字段
+# PreToolUse and PermissionRequest support systemMessage, 
+# but continue, stopReason, and suppressOutput aren't currently supported for those events. 
+# If a PreToolUse hook returns one of those unsupported fields, Codex marks that hook run as failed, 
+# reports the error, and continues the tool call.
+# 阻止工具调用
 #{
-#  "decision": "block",
-#  "reason": "The Bash output needs review before continuing.",
 #  "hookSpecificOutput": {
-#    "hookEventName": "PostToolUse",
-#    "additionalContext": "The command updated generated files."
+#    "hookEventName": "PreToolUse",
+#    "permissionDecision": "deny",
+#    "permissionDecisionReason": "阻止原因"
+#  }
+#}
+# 添加上下文但不阻止
+#{
+#  "hookSpecificOutput": {
+#    "hookEventName": "PreToolUse",
+#    "additionalContext": "模型可见的提示信息"
+#  }
+#}
+# 重写工具调用（不阻止）
+#{
+#  "hookSpecificOutput": {
+#    "hookEventName": "PreToolUse",
+#    "permissionDecision": "allow",
+#    "updatedInput": { "command": "echo rewritten" }
 #  }
 #}
 def build_hook_response() -> str:
-    return json.dumps({"continue": True}, ensure_ascii=False, indent=2)
+    return json.dumps({}, ensure_ascii=False, indent=2)
 
 
 if __name__ == "__main__":
@@ -120,3 +124,4 @@ if __name__ == "__main__":
             f"{response}\n"
         )
     c.write_stdout_utf8(response)
+

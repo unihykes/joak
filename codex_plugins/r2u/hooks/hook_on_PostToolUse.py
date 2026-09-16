@@ -6,9 +6,13 @@ import json
 import sys
 from typing import Any, Dict, Optional
 
-import r2u_hook_common as c
+import hook_common as c
 
-_LOG_MASK_KEYS = frozenset({"last_assistant_message"})
+_LOG_MASK_KEYS = frozenset({
+    "prompt", "text", "content",
+    "output", "pattern", "task",
+    "old_string", "new_string", "context", "tool_response"
+})
 
 
 def _mask_tree_for_log(node: Any, prop_name: str = "") -> Any:
@@ -27,46 +31,40 @@ def _mask_tree_for_log(node: Any, prop_name: str = "") -> Any:
 
 # Field	Type	Meaning
 # turn_id	string	Codex-specific extension. Active Codex turn id
-# agent_id	string	Identifier for the subagent
-# agent_type	string	Subagent type or profile
-# agent_transcript_path	string | null	Path to the subagent transcript file, if any
-# stop_hook_active	boolean	Whether this subagent was already continued
-# last_assistant_message	string | null	Latest subagent assistant message, if available
+# tool_name	string	Canonical hook tool name, such as Bash, apply_patch, or an MCP name like mcp__fs__read
+# tool_use_id	string	Tool-call id for this invocation
+# tool_input	JSON value	Tool-specific input. Bash and apply_patch use tool_input.command while MCP tools send all arguments.
+# tool_response	JSON value	Tool-specific output. For MCP tools, this is the MCP call result.
 # 备注: turn_id 已在 R2eHookInputHead 中解析
 @dataclass
-class R2eHookSubagentStopInputBody:
-    agent_id: Optional[str] = None
-    agent_type: Optional[str] = None
-    agent_transcript_path: Optional[str] = None
-    stop_hook_active: bool = False
-    last_assistant_message: Optional[str] = None
+class R2eHookPostToolUseInputBody:
+    tool_name: Optional[str] = None
+    tool_use_id: Optional[str] = None
+    tool_input: Optional[Any] = None
+    tool_response: Optional[Any] = None
     others: Dict[str, Any] = field(default_factory=dict)
 
     def to_string(self) -> str:
         payload: Dict[str, Any] = {
-            "agent_id": self.agent_id,
-            "agent_type": self.agent_type,
-            "agent_transcript_path": self.agent_transcript_path,
-            "stop_hook_active": self.stop_hook_active,
-            "last_assistant_message": self.last_assistant_message,
+            "tool_name": self.tool_name,
+            "tool_use_id": self.tool_use_id,
+            "tool_input": self.tool_input,
+            "tool_response": self.tool_response,
         }
         if self.others:
             payload["others"] = self.others
         return "\n" + json.dumps(_mask_tree_for_log(payload), ensure_ascii=False, indent=2)
 
 
-def get_hook_input_body() -> tuple[c.R2eHookInputHead, R2eHookSubagentStopInputBody]:
+def get_hook_input_body() -> tuple[c.R2eHookInputHead, R2eHookPostToolUseInputBody]:
     head, body_str = c.get_hook_input_head_and_body()
-    inst = R2eHookSubagentStopInputBody()
+    inst = R2eHookPostToolUseInputBody()
     hv = head.is_valid_Json
     if not str(body_str).strip():
         return head, inst
     if not hv:
-        inst.agent_id = c.fallback_quoted(body_str, "agent_id")
-        inst.agent_type = c.fallback_quoted(body_str, "agent_type")
-        inst.agent_transcript_path = c.fallback_quoted(body_str, "agent_transcript_path")
-        inst.stop_hook_active = c.fallback_bool(body_str, "stop_hook_active") or False
-        inst.last_assistant_message = c.fallback_quoted(body_str, "last_assistant_message")
+        inst.tool_name = c.fallback_quoted(body_str, "tool_name")
+        inst.tool_use_id = c.fallback_quoted(body_str, "tool_use_id")
         inst.others = c.invalid_others()
         return head, inst
     try:
@@ -77,18 +75,14 @@ def get_hook_input_body() -> tuple[c.R2eHookInputHead, R2eHookSubagentStopInputB
         inst.others = c.invalid_others()
         return head, inst
 
-    if "agent_id" in obj:
-        inst.agent_id = obj.pop("agent_id")
-    if "agent_type" in obj:
-        inst.agent_type = obj.pop("agent_type")
-    if "agent_transcript_path" in obj:
-        v = obj.pop("agent_transcript_path")
-        inst.agent_transcript_path = str(v) if v is not None else None
-    if "stop_hook_active" in obj:
-        inst.stop_hook_active = bool(obj.pop("stop_hook_active"))
-    if "last_assistant_message" in obj:
-        v = obj.pop("last_assistant_message")
-        inst.last_assistant_message = str(v) if v is not None else None
+    if "tool_name" in obj:
+        inst.tool_name = obj.pop("tool_name")
+    if "tool_use_id" in obj:
+        inst.tool_use_id = obj.pop("tool_use_id")
+    if "tool_input" in obj:
+        inst.tool_input = obj.pop("tool_input")
+    if "tool_response" in obj:
+        inst.tool_response = obj.pop("tool_response")
     if obj:
         inst.others = dict(obj)
     return head, inst
@@ -99,11 +93,18 @@ def get_hook_input_body() -> tuple[c.R2eHookInputHead, R2eHookSubagentStopInputB
 # stopReason	Recorded as the reason for stopping
 # systemMessage	Surfaced as a warning in the UI or event stream
 # suppressOutput	Parsed today but not yet implemented
+# 备注:
+# PostToolUse supports systemMessage, continue: false, and stopReason. 
+# suppressOutput is parsed but not currently supported for that event.
 
-# 阻止 subagent 停止（即继续运行）
+# 额外字段
 #{
 #  "decision": "block",
-#  "reason": "Run one more focused pass inside the subagent."
+#  "reason": "The Bash output needs review before continuing.",
+#  "hookSpecificOutput": {
+#    "hookEventName": "PostToolUse",
+#    "additionalContext": "The command updated generated files."
+#  }
 #}
 def build_hook_response() -> str:
     return json.dumps({"continue": True}, ensure_ascii=False, indent=2)
@@ -119,4 +120,3 @@ if __name__ == "__main__":
             f"{response}\n"
         )
     c.write_stdout_utf8(response)
-
