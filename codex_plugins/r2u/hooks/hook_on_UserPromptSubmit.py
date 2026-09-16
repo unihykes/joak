@@ -28,9 +28,9 @@ def _mask_tree_for_log(node: Any, prop_name: str = "") -> Any:
 # Field	Type	Meaning
 # turn_id	string	Codex-specific extension. Active Codex turn id
 # prompt	string	User prompt that's about to be sent
-# 备注: turn_id 已在 R2eHookInputHead 中解析
+# 备注: turn_id 已在 HookInputHead 中解析
 @dataclass
-class R2eHookBeforeSubmitPromptInputBody:
+class HookBeforeSubmitPromptInputBody:
     prompt: Optional[str] = None
     others: Dict[str, Any] = field(default_factory=dict)
 
@@ -43,9 +43,9 @@ class R2eHookBeforeSubmitPromptInputBody:
         return "\n" + json.dumps(_mask_tree_for_log(payload), ensure_ascii=False, indent=2)
 
 
-def get_hook_input_body() -> tuple[c.R2eHookInputHead, R2eHookBeforeSubmitPromptInputBody]:
+def get_hook_input_body() -> tuple[c.HookInputHead, HookBeforeSubmitPromptInputBody]:
     head, body_str = c.get_hook_input_head_and_body()
-    inst = R2eHookBeforeSubmitPromptInputBody()
+    inst = HookBeforeSubmitPromptInputBody()
     hv = head.is_valid_Json
     if not str(body_str).strip():
         return head, inst

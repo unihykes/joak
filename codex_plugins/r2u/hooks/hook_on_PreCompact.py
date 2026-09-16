@@ -12,9 +12,9 @@ import hook_common as c
 # Field	Type	Meaning
 # turn_id	string	Codex-specific extension. Active Codex turn id
 # trigger	string	What triggered compaction: manual or auto
-# 备注: turn_id 已在 R2eHookInputHead 中解析
+# 备注: turn_id 已在 HookInputHead 中解析
 @dataclass
-class R2eHookPreCompactInputBody:
+class HookPreCompactInputBody:
     trigger: Optional[str] = None
     others: Dict[str, Any] = field(default_factory=dict)
 
@@ -27,9 +27,9 @@ class R2eHookPreCompactInputBody:
         return "\n" + json.dumps(payload, ensure_ascii=False, indent=2)
 
 
-def get_hook_input_body() -> tuple[c.R2eHookInputHead, R2eHookPreCompactInputBody]:
+def get_hook_input_body() -> tuple[c.HookInputHead, HookPreCompactInputBody]:
     head, body_str = c.get_hook_input_head_and_body()
-    inst = R2eHookPreCompactInputBody()
+    inst = HookPreCompactInputBody()
     hv = head.is_valid_Json
     if not str(body_str).strip():
         return head, inst

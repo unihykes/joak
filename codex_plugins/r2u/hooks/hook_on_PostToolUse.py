@@ -35,9 +35,9 @@ def _mask_tree_for_log(node: Any, prop_name: str = "") -> Any:
 # tool_use_id	string	Tool-call id for this invocation
 # tool_input	JSON value	Tool-specific input. Bash and apply_patch use tool_input.command while MCP tools send all arguments.
 # tool_response	JSON value	Tool-specific output. For MCP tools, this is the MCP call result.
-# 备注: turn_id 已在 R2eHookInputHead 中解析
+# 备注: turn_id 已在 HookInputHead 中解析
 @dataclass
-class R2eHookPostToolUseInputBody:
+class HookPostToolUseInputBody:
     tool_name: Optional[str] = None
     tool_use_id: Optional[str] = None
     tool_input: Optional[Any] = None
@@ -56,9 +56,9 @@ class R2eHookPostToolUseInputBody:
         return "\n" + json.dumps(_mask_tree_for_log(payload), ensure_ascii=False, indent=2)
 
 
-def get_hook_input_body() -> tuple[c.R2eHookInputHead, R2eHookPostToolUseInputBody]:
+def get_hook_input_body() -> tuple[c.HookInputHead, HookPostToolUseInputBody]:
     head, body_str = c.get_hook_input_head_and_body()
-    inst = R2eHookPostToolUseInputBody()
+    inst = HookPostToolUseInputBody()
     hv = head.is_valid_Json
     if not str(body_str).strip():
         return head, inst

@@ -14,9 +14,9 @@ import hook_common as c
 # agent_id	string	Identifier for the subagent
 # agent_type	string	Subagent type or profile
 # permission_mode	string	Current permission mode
-# 备注: turn_id 和 permission_mode 已在 R2eHookInputHead 中解析
+# 备注: turn_id 和 permission_mode 已在 HookInputHead 中解析
 @dataclass
-class R2eHookSubagentStartInputBody:
+class HookSubagentStartInputBody:
     agent_id: Optional[str] = None
     agent_type: Optional[str] = None
     others: Dict[str, Any] = field(default_factory=dict)
@@ -31,9 +31,9 @@ class R2eHookSubagentStartInputBody:
         return "\n" + json.dumps(payload, ensure_ascii=False, indent=2)
 
 
-def get_hook_input_body() -> tuple[c.R2eHookInputHead, R2eHookSubagentStartInputBody]:
+def get_hook_input_body() -> tuple[c.HookInputHead, HookSubagentStartInputBody]:
     head, body_str = c.get_hook_input_head_and_body()
-    inst = R2eHookSubagentStartInputBody()
+    inst = HookSubagentStartInputBody()
     hv = head.is_valid_Json
     if not str(body_str).strip():
         return head, inst

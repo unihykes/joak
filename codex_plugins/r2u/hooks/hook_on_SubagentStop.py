@@ -32,9 +32,9 @@ def _mask_tree_for_log(node: Any, prop_name: str = "") -> Any:
 # agent_transcript_path	string | null	Path to the subagent transcript file, if any
 # stop_hook_active	boolean	Whether this subagent was already continued
 # last_assistant_message	string | null	Latest subagent assistant message, if available
-# 备注: turn_id 已在 R2eHookInputHead 中解析
+# 备注: turn_id 已在 HookInputHead 中解析
 @dataclass
-class R2eHookSubagentStopInputBody:
+class HookSubagentStopInputBody:
     agent_id: Optional[str] = None
     agent_type: Optional[str] = None
     agent_transcript_path: Optional[str] = None
@@ -55,9 +55,9 @@ class R2eHookSubagentStopInputBody:
         return "\n" + json.dumps(_mask_tree_for_log(payload), ensure_ascii=False, indent=2)
 
 
-def get_hook_input_body() -> tuple[c.R2eHookInputHead, R2eHookSubagentStopInputBody]:
+def get_hook_input_body() -> tuple[c.HookInputHead, HookSubagentStopInputBody]:
     head, body_str = c.get_hook_input_head_and_body()
-    inst = R2eHookSubagentStopInputBody()
+    inst = HookSubagentStopInputBody()
     hv = head.is_valid_Json
     if not str(body_str).strip():
         return head, inst

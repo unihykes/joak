@@ -30,7 +30,7 @@ def _mask_tree_for_log(node: Any, prop_name: str = "") -> Any:
 # stop_hook_active	boolean	Whether this turn was already continued by Stop
 # last_assistant_message	string | null	Latest assistant message text, if available
 @dataclass
-class R2eHookStopInputBody:
+class HookStopInputBody:
     stop_hook_active: bool = False
     last_assistant_message: Optional[str] = None
     others: Dict[str, Any] = field(default_factory=dict)
@@ -45,9 +45,9 @@ class R2eHookStopInputBody:
         return "\n" + json.dumps(_mask_tree_for_log(payload), ensure_ascii=False, indent=2)
 
 
-def get_hook_input_body() -> tuple[c.R2eHookInputHead, R2eHookStopInputBody]:
+def get_hook_input_body() -> tuple[c.HookInputHead, HookStopInputBody]:
     head, body_str = c.get_hook_input_head_and_body()
-    inst = R2eHookStopInputBody()
+    inst = HookStopInputBody()
     hv = head.is_valid_Json
     if not str(body_str).strip():
         return head, inst

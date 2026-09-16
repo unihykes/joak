@@ -14,7 +14,7 @@ import hook_common as c
 # Field	Type	Meaning
 # source	string	How the session started: startup, resume, clear, or compact
 @dataclass
-class R2eHookSessionStartInputBody:
+class HookSessionStartInputBody:
     source: Optional[str] = None
     others: Dict[str, Any] = field(default_factory=dict)
 
@@ -27,9 +27,9 @@ class R2eHookSessionStartInputBody:
         return "\n" + json.dumps(payload, ensure_ascii=False, indent=2)
 
 
-def get_hook_input_body() -> tuple[c.R2eHookInputHead, R2eHookSessionStartInputBody]:
+def get_hook_input_body() -> tuple[c.HookInputHead, HookSessionStartInputBody]:
     head, body_str = c.get_hook_input_head_and_body()
-    inst = R2eHookSessionStartInputBody()
+    inst = HookSessionStartInputBody()
     hv = head.is_valid_Json
     if not str(body_str).strip():
         return head, inst

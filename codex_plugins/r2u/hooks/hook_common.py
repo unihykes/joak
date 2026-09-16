@@ -154,7 +154,7 @@ def load_plugin_context_text(context_filename: str, default_text: str = "") -> s
 # hook PreCompact  不存在 permission_mode 字段
 # hook PostCompact 不存在 permission_mode 字段
 
-class R2eHookInputHead:
+class HookInputHead:
     def __init__(self) -> None:
         """初始化 Hook 头部字段，先填充默认占位值。"""
         self.captured_at: datetime = datetime.now()
@@ -193,9 +193,9 @@ class R2eHookInputHead:
         )
 
 
-def get_hook_input_head_and_body(raw_input: Optional[str] = None) -> Tuple[R2eHookInputHead, str]:
+def get_hook_input_head_and_body(raw_input: Optional[str] = None) -> Tuple[HookInputHead, str]:
     """解析 Hook 输入并拆分手部信息与正文字符串。"""
-    head = R2eHookInputHead()
+    head = HookInputHead()
     if raw_input is None:
         raw_input = read_stdin_utf8()
     raw_input = raw_input.lstrip("\ufeff")

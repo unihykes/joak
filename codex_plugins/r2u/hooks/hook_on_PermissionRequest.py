@@ -14,9 +14,9 @@ import hook_common as c
 # tool_name	string	Canonical hook tool name, such as Bash, apply_patch, or an MCP name like mcp__fs__read
 # tool_input	JSON value	Tool-specific input. Bash and apply_patch use tool_input.command while MCP tools send all the args.
 # tool_input.description	string | null	Human-readable approval reason, when Codex has one
-# 备注: turn_id 已在 R2eHookInputHead 中解析
+# 备注: turn_id 已在 HookInputHead 中解析
 @dataclass
-class R2eHookPermissionRequestInputBody:
+class HookPermissionRequestInputBody:
     tool_name: Optional[str] = None
     tool_input: Optional[Any] = None
     others: Dict[str, Any] = field(default_factory=dict)
@@ -31,9 +31,9 @@ class R2eHookPermissionRequestInputBody:
         return "\n" + json.dumps(payload, ensure_ascii=False, indent=2)
 
 
-def get_hook_input_body() -> tuple[c.R2eHookInputHead, R2eHookPermissionRequestInputBody]:
+def get_hook_input_body() -> tuple[c.HookInputHead, HookPermissionRequestInputBody]:
     head, body_str = c.get_hook_input_head_and_body()
-    inst = R2eHookPermissionRequestInputBody()
+    inst = HookPermissionRequestInputBody()
     hv = head.is_valid_Json
     if not str(body_str).strip():
         return head, inst
