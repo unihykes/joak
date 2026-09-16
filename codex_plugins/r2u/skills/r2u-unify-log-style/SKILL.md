@@ -7,7 +7,7 @@ disable-model-invocation: true
 ## 指令(做什么)
 
 - 扫描用户指定位置的代码文件。
-- 检查日志调用是否符合 r2u 基础库日志宏规范（见 <AFK_PLUGIN_ROOT>/contexts/r2u_style_logging.md）。
+- 检查日志调用是否符合 r2u 基础库日志宏规范（见 <AFK_PLUGIN_ROOT>/contexts/style_logging.md）。
 - 识别不符合规范的写法并逐条给出修正建议。
 - 在用户确认后可直接修改代码以统一日志风格。
 
