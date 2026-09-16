@@ -1,26 +1,14 @@
 {
-  "name": "proplyd-marketplace",
+  "name": "joak",
   "interface": {
-    "displayName": "proplyd marketplace"
+    "displayName": "joak"
   },
   "plugins": [
     {
       "name": "r2u",
       "source": {
         "source": "local",
-        "path": "./plugins/r2u"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Productivity"
-    },
-    {
-      "name": "seal",
-      "source": {
-        "source": "local",
-        "path": "./plugins/seal"
+        "path": "./codex_plugins/r2u"
       },
       "policy": {
         "installation": "AVAILABLE",

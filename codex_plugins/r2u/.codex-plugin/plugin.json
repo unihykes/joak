@@ -7,8 +7,8 @@
     "email": "todo",
     "url": "todo"
   },
-  "homepage": "https://github.com/unihykes/marketplace.git",
-  "repository": "https://github.com/unihykes/marketplace.git",
+  "homepage": "https://github.com/unihykes/joak.git",
+  "repository": "https://github.com/unihykes/joak.git",
   "license": "todo",
   "keywords": ["rdy2u", "r2u"],
   "skills": "./skills",
@@ -22,9 +22,9 @@
     "developerName": "unihykes",
     "category": "Productivity",
     "capabilities": ["Read", "Write"],
-    "websiteURL": "https://github.com/unihykes/marketplace.git",
-    "privacyPolicyURL": "https://github.com/unihykes/marketplace.git",
-    "termsOfServiceURL": "https://github.com/unihykes/marketplace.git",
+    "websiteURL": "https://github.com/unihykes/joak.git",
+    "privacyPolicyURL": "https://github.com/unihykes/joak.git",
+    "termsOfServiceURL": "https://github.com/unihykes/joak.git",
     "defaultPrompt": [
       "use r2u plugin"
     ],
