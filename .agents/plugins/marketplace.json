@@ -5,10 +5,10 @@
   },
   "plugins": [
     {
-      "name": "r2u",
+      "name": "afk",
       "source": {
         "source": "local",
-        "path": "./codex_plugins/r2u"
+        "path": "./codex_plugins/afk"
       },
       "policy": {
         "installation": "AVAILABLE",

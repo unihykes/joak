@@ -1,7 +1,7 @@
 {
-  "name": "r2u",
+  "name": "afk",
   "version": "1.0.1",
-  "description": "r2u plugin for cross-repo development",
+  "description": "plugin for cross-repo development",
   "author": {
     "name": "unihykes",
     "email": "todo",
@@ -10,15 +10,15 @@
   "homepage": "https://github.com/unihykes/joak.git",
   "repository": "https://github.com/unihykes/joak.git",
   "license": "todo",
-  "keywords": ["rdy2u", "r2u"],
+  "keywords": ["afk"],
   "skills": "./skills",
   "mcpServers": "./.mcp.json",
   "apps": "./.app.json",
   "hooks": "./hooks/hooks.json",
   "interface": {
-    "displayName": "r2u",
-    "shortDescription": "r2u short desc",
-    "longDescription": "r2u long desc",
+    "displayName": "afk",
+    "shortDescription": "short desc...",
+    "longDescription": "long desc......",
     "developerName": "unihykes",
     "category": "Productivity",
     "capabilities": ["Read", "Write"],
@@ -26,7 +26,7 @@
     "privacyPolicyURL": "https://github.com/unihykes/joak.git",
     "termsOfServiceURL": "https://github.com/unihykes/joak.git",
     "defaultPrompt": [
-      "use r2u plugin"
+      "use afk plugin"
     ],
     "brandColor": "#10A37F",
     "composerIcon": "./assets/icon.png",

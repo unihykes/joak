@@ -21,7 +21,7 @@ else
 fi
 
 SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-R2U_DIR="$(cd "${SOURCE_DIR}/../r2u" 2>/dev/null && pwd || true)"
+AFK_DIR="$(cd "${SOURCE_DIR}/../afk" 2>/dev/null && pwd || true)"
 TARGET_DIR="${PROJECT_ROOT}/.cursor/plugins/local/r2e"
 echo "Source: ${SOURCE_DIR} | Target: ${TARGET_DIR}"
 
@@ -48,7 +48,7 @@ copy_dir_optional() {
 copy_dir_optional ".cursor-plugin"
 copy_dir_optional "rules"
 copy_dir_optional "skills"
-copy_dir_optional "${R2U_DIR}/skills" "skills"
+copy_dir_optional "${AFK_DIR}/skills" "skills"
 copy_dir_optional "agents"
 copy_dir_optional "commands"
 copy_dir_optional "hooks/linux" "hooks"

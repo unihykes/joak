@@ -14,7 +14,7 @@ if "%~1"=="" (
 )
 
 set "SOURCE_DIR=%~dp0."
-set "R2U_DIR=%SOURCE_DIR%\..\r2u"
+set "AFK_DIR=%SOURCE_DIR%\..\afk"
 set "TARGET_DIR=%PROJECT_ROOT%\.cursor\plugins\local\r2e"
 
 echo Source: %SOURCE_DIR% ^| Target: %TARGET_DIR%
@@ -42,7 +42,7 @@ if errorlevel 1 exit /b 1
 call :copy_dir_optional "skills"
 if errorlevel 1 exit /b 1
 
-call :copy_dir_optional "%R2U_DIR%\skills" "skills"
+call :copy_dir_optional "%AFK_DIR%\skills" "skills"
 if errorlevel 1 exit /b 1
 
 call :copy_dir_optional "agents"
