@@ -120,7 +120,7 @@ def get_hook_project_log_path(log_date: str) -> Path:
     log_dir = Path(project_dir) / ".codex" / "logs"
     log_dir.mkdir(parents=True, exist_ok=True)
     dd = log_date.strip() or datetime.now().strftime("%Y-%m-%d")
-    return log_dir / f"r2u_hook_event_{dd}.log"
+    return log_dir / f"hook_event_{dd}.log"
 
 
 def load_plugin_context_text(context_filename: str, default_text: str = "") -> str:

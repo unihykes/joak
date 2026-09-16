@@ -94,9 +94,9 @@ def _ensure_context_contract_text() -> str:
     if not plugin_root:
         return ""
 
-    context_path = Path(plugin_root) / "contexts" / "r2u_context_contract.toml"
+    context_path = Path(plugin_root) / "contexts" / "context_contract.toml"
     defaults = {
-        "R2U_PLUGIN_ROOT": plugin_root,
+        "AFK_PLUGIN_ROOT": plugin_root,
     }
     context_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -142,7 +142,7 @@ def _ensure_context_contract_text() -> str:
 def build_hook_response() -> str:
     context_parts = [
         _ensure_context_contract_text(),
-        c.load_plugin_context_text("AGENTS.r2u.md"),
+        c.load_plugin_context_text("AGENTS.append.md"),
     ]
     additional_context = "\n\n".join(part for part in context_parts if part.strip())
     return json.dumps({
