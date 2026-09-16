@@ -1,4 +1,5 @@
 ﻿@echo off
+chcp 65001>nul 2>&1
 set "LOG_FILE=%cd%\.codex\logs\hooks.log"
 set "EXECUTOR=%USERPROFILE%\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
 set "EVENT_NAME=%~1"
@@ -24,7 +25,8 @@ exit /b %HOOK_EXIT_CODE%
 
 :write_log
 set "LOG_DATE=%date%"
-for /f "tokens=1,*" %%a in ("%LOG_DATE%") do if not "%%b"=="" set "LOG_DATE=%%b"
+for /f "delims=0123456789" %%a in ("%LOG_DATE:~0,1%") do set "LOG_DATE=%LOG_DATE:* =%"
+for /f "delims= " %%a in ("%LOG_DATE%") do set "LOG_DATE=%%a"
 set "LOG_TIME=%time: =0%"
 echo [%LOG_DATE% %LOG_TIME%] %~1>> "%LOG_FILE%"
 exit /b 0
