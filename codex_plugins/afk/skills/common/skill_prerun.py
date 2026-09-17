@@ -15,7 +15,7 @@ def prepare_prerun(skill: str) -> Path:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="r2u prerun preparation")
+    parser = argparse.ArgumentParser(description="skill preparation")
     parser.add_argument("--skill", required=True, help="skill name used as the log file prefix")
     args = parser.parse_args()
 

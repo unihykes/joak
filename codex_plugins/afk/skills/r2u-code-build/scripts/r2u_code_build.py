@@ -13,7 +13,7 @@ def parse_options(options: str) -> str:
     try:
         data = json.loads(options)
     except json.JSONDecodeError as e:
-        raise ValueError(f"--options 必须为 r2u_prerun.py 返回的 JSON：{e}") from e
+        raise ValueError(f"--options 必须为 skill_prerun.py 返回的 JSON：{e}") from e
 
     if not isinstance(data, dict):
         raise ValueError("--options 必须为 JSON 对象")
@@ -64,7 +64,7 @@ def create_command(kind: str, module: str) -> list[str]:
 
 def main() -> int:
     sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "common"))
-    from r2u_run import r2u_run  # noqa: PLC0415 — 需在补全 import 路径之后（``skills/common``）
+    from skill_run import skill_run  # noqa: PLC0415 — 需在补全 import 路径之后（``skills/common``）
 
     parser = argparse.ArgumentParser(description="r2u C++ 代码构建入口")
     parser.add_argument(
@@ -82,7 +82,7 @@ def main() -> int:
     parser.add_argument(
         "--options",
         required=True,
-        help="由 r2u_prerun.py 返回的 JSON 信息",
+        help="由 skill_prerun.py 返回的 JSON 信息",
     )
     args = parser.parse_args()
 
@@ -93,7 +93,7 @@ def main() -> int:
         sys.stderr.write(f"{e}\n")
         return 1
 
-    return r2u_run(Path(__file__).stem, command, log_path)
+    return skill_run(Path(__file__).stem, command, log_path)
 
 
 if __name__ == "__main__":
