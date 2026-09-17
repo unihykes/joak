@@ -1,7 +1,6 @@
 ---
 name: r2u-code-check-virtual-call-in-constructor
 description: 检查构造阶段虚调用风险，供code-check类型的agent主动调用
-disable-model-invocation: true
 ---
 
 ## 指令(做什么)

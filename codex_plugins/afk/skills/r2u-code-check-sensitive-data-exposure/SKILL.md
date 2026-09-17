@@ -1,7 +1,6 @@
 ---
 name: r2u-code-check-sensitive-data-exposure
 description: 检查敏感数据暴露风险，供code-check类型的agent主动调用
-disable-model-invocation: true
 ---
 
 ## 指令(做什么)

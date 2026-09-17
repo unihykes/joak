@@ -1,7 +1,6 @@
 ---
 name: r2u-example
 description: 当用户输入 @r2u-example 时触发, 用于示范技能的用法
-disable-model-invocation: true
 ---
 
 ## 指令(做什么)

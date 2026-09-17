@@ -1,7 +1,6 @@
 ---
 name: r2u-code-check-empty-container-access
 description: 检查空容器访问风险，供code-check类型的agent主动调用
-disable-model-invocation: true
 ---
 
 ## 指令(做什么)

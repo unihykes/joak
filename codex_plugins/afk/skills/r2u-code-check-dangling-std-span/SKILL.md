@@ -1,7 +1,6 @@
 ---
 name: r2u-code-check-dangling-std-span
 description: 检查 std::span 绑定临时或即将失效缓冲的悬垂风险；供 code-check 类 agent 主动调用
-disable-model-invocation: true
 ---
 
 ## 指令(做什么)

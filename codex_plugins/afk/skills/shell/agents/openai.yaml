@@ -1,5 +1,6 @@
 interface:
   display_name: "shell"
+  short_description: "在用户显式输入 /shell 时，把其后的文本原样作为终端命令执行"
 
 policy:
   allow_implicit_invocation: true

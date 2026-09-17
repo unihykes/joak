@@ -1,7 +1,6 @@
 ---
 name: r2u-code-check-dangling-lambda-capture
 description: 检查 lambda 按引用捕获局部等导致的悬垂风险；供 code-check 类 agent 主动调用
-disable-model-invocation: true
 ---
 
 ## 指令(做什么)

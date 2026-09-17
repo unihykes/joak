@@ -1,7 +1,6 @@
 ---
 name: r2u-code-optimize-unnecessary-copy
 description: 检查不必要的对象拷贝并给出低风险替换建议，供code-optimize类型的agent主动调用
-disable-model-invocation: true
 ---
 
 ## 指令(做什么)

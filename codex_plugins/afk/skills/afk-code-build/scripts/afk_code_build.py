@@ -25,7 +25,7 @@ def parse_options(options: str) -> str:
     return log_path
 
 
-def detect_abplatform() -> str:
+def detect_platform() -> str:
     machine = platform.machine().strip().lower()
     if machine in ("aarch64", "arm64") or machine.startswith("arm"):
         return "Linux_el7a3_aarcj64"
@@ -35,11 +35,8 @@ def detect_abplatform() -> str:
     raise ValueError(f"不支持的 CPU 架构：{platform.machine()!r}")
 
 
-def create_command(kind: str, module: str) -> list[str]:
-    """生成待执行命令。
-    :param kind: ``debug`` 或 ``release``（对应命令行 ``--kind``，忽略大小写），追加到 ``makec.sh -j8`` 之后。
-    :param module: 项目内相对子路径（对应 ``--module``）；为空表示编译所有模块。不得为绝对路径。
-    """
+def generate_command(kind: str, module: str) -> list[str]:
+    """生成待执行命令。"""
     bt = kind.strip().lower()
     if bt not in ("debug", "release"):
         raise ValueError(f"--kind 须为 debug 或 release，收到: {kind!r}")
@@ -48,10 +45,10 @@ def create_command(kind: str, module: str) -> list[str]:
         raise ValueError("仅支持项目内相对路径（不得为绝对路径）")
 
     project_root = Path.cwd().resolve()
-    abplatform = detect_abplatform()
+    build_platform = detect_platform()
     script = (
         "set -eo pipefail && "
-        f'ABPLATFORM="{abplatform}" && '
+        f'ABPLATFORM="{build_platform}" && '
         f"PROJECT_ROOT={shlex.quote(str(project_root))} && "
         f"MODULE_PATH={shlex.quote(module)} && "
         f"cd {shlex.quote(str(project_root / 'cmake'))} && "
@@ -66,7 +63,7 @@ def main() -> int:
     sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "common"))
     from skill_run import skill_run  # noqa: PLC0415 — 需在补全 import 路径之后（``skills/common``）
 
-    parser = argparse.ArgumentParser(description="r2u C++ 代码构建入口")
+    parser = argparse.ArgumentParser(description="C++ 代码构建")
     parser.add_argument(
         "--module",
         default="",
@@ -88,7 +85,7 @@ def main() -> int:
 
     try:
         log_path = parse_options(args.options)
-        command = create_command(args.kind, args.module)
+        command = generate_command(args.kind, args.module)
     except ValueError as e:
         sys.stderr.write(f"{e}\n")
         return 1

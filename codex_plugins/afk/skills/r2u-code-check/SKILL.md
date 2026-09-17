@@ -1,7 +1,6 @@
 ---
 name: r2u-code-check
 description: C++ 代码检查，在用户要求 code check 或代码审查时使用
-disable-model-invocation: true
 ---
 
 ## 指令(做什么)

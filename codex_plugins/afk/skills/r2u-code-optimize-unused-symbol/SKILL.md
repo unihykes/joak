@@ -1,7 +1,6 @@
 ---
 name: r2u-code-optimize-unused-symbol
 description: 检查未被使用的代码符号并给出清理建议；供 code-optimize 类 agent 主动调用
-disable-model-invocation: true
 ---
 
 ## 指令(做什么)

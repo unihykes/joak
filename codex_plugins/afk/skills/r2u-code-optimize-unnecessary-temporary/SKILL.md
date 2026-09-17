@@ -1,7 +1,6 @@
 ---
 name: r2u-code-optimize-unnecessary-temporary
 description: 检查不必要的临时对象与中间态构造并给出低风险优化建议；供 code-optimize 类 agent 主动调用
-disable-model-invocation: true
 ---
 
 ## 指令(做什么)

@@ -1,7 +1,6 @@
 ---
 name: r2u-code-optimize
 description: C++ 代码优化编排技能，在用户要求代码优化、代码清理或降噪整理时使用
-disable-model-invocation: true
 ---
 
 ## 指令(做什么)
