@@ -5,7 +5,6 @@ from dataclasses import dataclass, field
 import json
 import os
 from pathlib import Path
-import sys
 from typing import Any, Dict, Optional
 
 import hook_common as c

@@ -3,7 +3,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 import json
-import sys
 from typing import Any, Dict, Optional
 
 import hook_common as c
