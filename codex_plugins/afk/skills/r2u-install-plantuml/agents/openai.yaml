@@ -1,6 +1,0 @@
-interface:
-  display_name: "r2u-install-plantuml"
-  short_description: "Install Java, Graphviz, and PlantUML JAR"
-
-policy:
-  allow_implicit_invocation: true

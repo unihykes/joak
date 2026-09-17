@@ -1,6 +1,0 @@
-interface:
-  display_name: "r2u-code-explain"
-  short_description: "解释代码、函数、diff 和改动。"
-
-policy:
-  allow_implicit_invocation: true

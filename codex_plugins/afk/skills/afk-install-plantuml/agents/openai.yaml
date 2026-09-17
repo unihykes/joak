@@ -1,0 +1,6 @@
+interface:
+  display_name: "afk-install-plantuml"
+  short_description: "Install Java, Graphviz, and PlantUML JAR"
+
+policy:
+  allow_implicit_invocation: true
