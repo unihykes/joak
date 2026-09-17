@@ -5,17 +5,18 @@ description: C++ 代码构建，在用户希望编译全部或部分模块, 或�
 
 ## 指令(做什么)
 
-#### 1.执行 `skill_prerun` 脚本
+#### 1.预运行
 ```bash
   `PRERUN_OPTIONS="$(python3 <AFK_PLUGIN_ROOT>/skills/common/skill_prerun.py --skill afk_code_build)"`
 ```
+
 - 执行`prerun`命令结束后，必须立即向用户原样输出 `${PRERUN_OPTIONS}`
 
-#### 2.执行`skill_run`脚本
+#### 2.运行
   `python3 <AFK_PLUGIN_ROOT>/skills/afk-code-build/scripts/afk_code_build.py --options="${PRERUN_OPTIONS}" --module=<相对路径> --kind=<debug | release>`
 
-- 执行`skill_run`脚本可能耗时很长, 为规避超时中断,agent可以每30秒获取一次日志文件的最后一行内容,并原样输出给用户(添加系统时间作前缀).
 - 参数`--module` 与 `--kind` 均可省略、顺序任意。
+- 该命令可能耗时很长, 为规避超时中断,agent可以每30秒获取一次日志文件的最后一行内容,并原样输出给用户(添加系统时间作前缀).
 
 ## 约束(怎么做)
 
