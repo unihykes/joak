@@ -1,6 +1,6 @@
 ---
 name: afk-code-check-out-of-bounds-access
-description: C++ 数组/容器/缓冲区访问，下标或偏移可静态证明越界（>= size 或 < 0）；供 code-check 类 agent 主动调用
+description: C++ 数组/容器/缓冲区访问，下标或偏移可静态证明越界（>= size 或 < 0）；
 ---
 
 ## 指令(做什么)

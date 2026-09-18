@@ -1,6 +1,6 @@
 ---
 name: afk-code-check-dangling-reference
-description: 检查引用绑定临时对象、返回局部引用/指针等悬垂风险；供 code-check 类 agent 主动调用
+description: 检查引用绑定临时对象、返回局部引用/指针等悬垂风险；
 ---
 
 ## 指令(做什么)

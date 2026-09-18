@@ -1,6 +1,6 @@
 ---
 name: afk-code-check-divide-by-zero
-description: C++ 整数 `/` 与 `%`，分母可静态推定为 0 的除零检查；供 code-check 类 agent 主动调用
+description: C++ 整数 `/` 与 `%`，分母可静态推定为 0 的除零检查；
 ---
 
 ## 指令(做什么)

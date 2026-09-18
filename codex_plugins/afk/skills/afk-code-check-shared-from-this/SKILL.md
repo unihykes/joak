@@ -1,6 +1,6 @@
 ---
 name: afk-code-check-shared-from-this
-description: 检查裸 this 构造 shared_ptr、误用 shared_from_this 等风险；供 code-check 类 agent 主动调用
+description: 检查裸 this 构造 shared_ptr、误用 shared_from_this 等风险；
 ---
 
 ## 指令(做什么)

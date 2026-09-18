@@ -1,6 +1,6 @@
 ---
 name: afk-code-check-null-dereference
-description: 检查可空指针/对象在可静态推知为空的路径上的解引用风险；供 code-check 类 agent 主动调用
+description: 检查可空指针/对象在可静态推知为空的路径上的解引用风险；
 ---
 
 ## 指令(做什么)

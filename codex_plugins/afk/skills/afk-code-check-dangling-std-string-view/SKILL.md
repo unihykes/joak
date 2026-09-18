@@ -1,6 +1,6 @@
 ---
 name: afk-code-check-dangling-std-string-view
-description: 检查 std::string_view 绑定临时或即将失效缓冲的悬垂风险；供 code-check 类 agent 主动调用
+description: 检查 std::string_view 绑定临时或即将失效缓冲的悬垂风险；
 ---
 
 ## 指令(做什么)
@@ -16,7 +16,6 @@ description: 检查 std::string_view 绑定临时或即将失效缓冲的悬垂�
 - [命中] `std::string_view` 指向已 `move` 或已销毁拥有者曾持有的缓冲。
 - [命中] 在 `realloc` 或容器收缩等可能使引用失效后仍持有旧 `std::string_view`。
 - [排除] 本技能仅负责 `std::string_view`。
-- [排除] `std::span` 同类问题不在本技能内，交由 `/afk-code-check-dangling-std-span` 处理。
 
 ## 示例
 

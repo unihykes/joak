@@ -1,6 +1,6 @@
 interface:
   display_name: "afk-code-check-out-of-bounds-access"
-  short_description: "C++ 数组/容器/缓冲区访问，下标或偏移可静态证明越界（>= size 或 < 0）；供 code-check 类 agent 主动调用"
+  short_description: "C++ 数组/容器/缓冲区访问，下标或偏移可静态证明越界（>= size 或 < 0）；"
 
 policy:
   allow_implicit_invocation: false

@@ -1,6 +1,6 @@
 interface:
   display_name: "afk-code-check-dangling-reference"
-  short_description: "检查引用绑定临时对象、返回局部引用/指针等悬垂风险；供 code-check 类 agent 主动调用"
+  short_description: "检查引用绑定临时对象、返回局部引用/指针等悬垂风险；"
 
 policy:
   allow_implicit_invocation: false
